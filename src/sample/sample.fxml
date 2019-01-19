@@ -1,15 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="578.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
   </columnConstraints>
   <rowConstraints>
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -17,7 +24,7 @@
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <LineChart fx:id="m_chart" title="M parameter">
+      <LineChart fx:id="m_chart" legendVisible="false" title="M parameter">
         <xAxis>
           <NumberAxis label="time[ms]" side="BOTTOM" />
         </xAxis>
@@ -25,7 +32,7 @@
           <NumberAxis label="U[mV]" side="LEFT" />
         </yAxis>
       </LineChart>
-      <LineChart fx:id="n_chart" title="N parameter" GridPane.columnIndex="1">
+      <LineChart fx:id="n_chart" legendVisible="false" title="N parameter" GridPane.columnIndex="1">
         <xAxis>
           <NumberAxis label="time[ms]" side="BOTTOM" />
         </xAxis>
@@ -33,7 +40,7 @@
           <NumberAxis label="U[mV]" side="LEFT" />
         </yAxis>
       </LineChart>
-      <LineChart fx:id="h_chart" title="H parameter" GridPane.rowIndex="1">
+      <LineChart fx:id="h_chart" legendVisible="false" title="H parameter" GridPane.rowIndex="1">
         <xAxis>
           <NumberAxis label="time[ms]" side="BOTTOM" />
         </xAxis>
@@ -41,7 +48,7 @@
           <NumberAxis label="U[mV]" side="LEFT" />
         </yAxis>
       </LineChart>
-      <LineChart fx:id="u_chart" title="U value" GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <LineChart fx:id="u_chart" legendVisible="false" title="U value" GridPane.columnIndex="1" GridPane.rowIndex="1">
         <xAxis>
           <NumberAxis label="time[ms]" side="BOTTOM" />
         </xAxis>
@@ -49,7 +56,7 @@
           <NumberAxis label="U[mV]" side="LEFT" />
         </yAxis>
       </LineChart>
-      <LineChart fx:id="ions_chart" title="Ions currents voltage" GridPane.rowIndex="2">
+      <LineChart fx:id="ions_chart" legendVisible="false" title="Ions currents voltage" GridPane.rowIndex="2">
         <xAxis>
           <NumberAxis label="time[m/s]" side="BOTTOM" />
         </xAxis>
@@ -65,5 +72,85 @@
           <NumberAxis label="m,h,n[mV]" side="LEFT" />
         </yAxis>
       </LineChart>
+      <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2">
+         <children>
+            <Label text="Signal parameters:" />
+            <HBox prefHeight="41.0" prefWidth="192.0">
+               <children>
+                  <Label text="Peaks frequency:">
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="peaks_frequency_label" text="-" />
+               </children>
+               <VBox.margin>
+                  <Insets left="10.0" top="10.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox layoutX="20.0" layoutY="36.0" prefHeight="41.0" prefWidth="192.0">
+               <children>
+                  <Label text="Peaks mean:">
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="peaks_mean_label" text="-" />
+               </children>
+               <VBox.margin>
+                  <Insets left="10.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox layoutX="10.0" layoutY="77.0" prefHeight="41.0" prefWidth="192.0">
+               <children>
+                  <Label text="Peaks std deviation:">
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="peaks_std_dev_label" text="-" />
+               </children>
+               <VBox.margin>
+                  <Insets left="10.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox layoutX="20.0" layoutY="114.0" prefHeight="41.0" prefWidth="192.0">
+               <children>
+                  <Label text="Peaks max:">
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="peaks_max_label" text="-" />
+               </children>
+               <VBox.margin>
+                  <Insets left="10.0" />
+               </VBox.margin>
+            </HBox>
+         </children>
+      </VBox>
+      <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+         <children>
+            <Label text="Model parameters:" />
+            <Label text="I[uA/cm^2]" />
+            <Label fx:id="i_label" text="-">
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </Label>
+            <Slider fx:id="i_value_slider" blockIncrement="2.0" max="50.0" value="16.0" />
+            <Label text="Simulation time [ms]:" />
+            <Label fx:id="simulation_time_label" text="-">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <VBox.margin>
+                  <Insets left="10.0" />
+               </VBox.margin>
+            </Label>
+            <Slider fx:id="simulation_time_slider" value="50.0" />
+            <Button alignment="CENTER" mnemonicParsing="false" onMouseClicked="#simulate" text="Simulate" />
+         </children>
+      </VBox>
    </children>
 </GridPane>

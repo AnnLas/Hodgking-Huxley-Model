@@ -1,9 +1,14 @@
 package sample;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
+import javafx.scene.input.MouseEvent;
 import org.apache.commons.math3.ode.FirstOrderIntegrator;
 import org.apache.commons.math3.ode.nonstiff.EulerIntegrator;
 
@@ -13,9 +18,25 @@ import java.util.ResourceBundle;
 public class Controller implements Initializable {
     private static final double u0 = 0;
     private double simulationEndTime = 50;
+    //Initial values for calculations
     private double infinityM;
     private double infinityN;
     private double infinityH;
+
+
+    //Data series for charts
+    private XYChart.Series mStabilitySeries;
+    private XYChart.Series nStabilitySeries;
+    private XYChart.Series hStabilitySeries;
+    private XYChart.Series nSeries;
+    private XYChart.Series mSeries;
+    private XYChart.Series hSeries;
+    private XYChart.Series uSeries;
+    private XYChart.Series membraneCurrentSeries;
+
+    private ResultsHandler resultsHandler;
+
+
     private ImplementedEquations implementedEquations;
 
 
@@ -35,32 +56,65 @@ public class Controller implements Initializable {
     private LineChart<Double, Double> ions_chart;
 
     @FXML
-    private LineChart<Double, Double> stability_chart;
+    private LineChart<Integer, Double> stability_chart;
+
+    @FXML
+    private Label peaks_frequency_label;
+
+    @FXML
+    private Label peaks_mean_label;
+
+    @FXML
+    private Label peaks_max_label;
+
+    @FXML
+    private Label peaks_std_dev_label;
+
+    @FXML
+    private Label i_label;
+
+    @FXML
+    private Slider i_value_slider;
+
+    @FXML
+    private Label simulation_time_label;
+
+    @FXML
+    private Slider simulation_time_slider;
+
+
+    @FXML
+    void simulate(MouseEvent event) {
+        clearData();
+
+
+    }
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        implementedEquations = new ImplementedEquations(simulationEndTime);
+
+
+        initLabelsAndSliders();
+
+        implementedEquations = new ImplementedEquations(simulation_time_slider.getValue(), i_value_slider.getValue());
+
         FirstOrderIntegrator erIntegrator = new EulerIntegrator(0.01);
-        ResultsHandler resultsHandler = new ResultsHandler();
+        resultsHandler = new ResultsHandler();
         erIntegrator.addStepHandler(resultsHandler);
+
+        seriesInit();
+        chartInit();
 
         infinityM = calculateIonsStability(u0)[0];
         infinityN = calculateIonsStability(u0)[1];
         infinityH = calculateIonsStability(u0)[2];
 
+        double[] xStart = {infinityM, infinityN, infinityH, u0};
+        erIntegrator.integrate(implementedEquations, 0, xStart, simulationEndTime, xStart);
+        SignalParameters statistics = new SignalParameters(resultsHandler.getuValuesArray(), resultsHandler.getTime());
+        showStats(statistics);
 
-        double[] xStart = {infinityM, infinityN,infinityH,u0};
-        erIntegrator.integrate(implementedEquations,0,xStart,simulationEndTime,xStart);
-
-        XYChart.Series mSeries = new XYChart.Series();
-        XYChart.Series nSeries = new XYChart.Series();
-        XYChart.Series hSeries = new XYChart.Series();
-        XYChart.Series uSeries = new XYChart.Series();
-        XYChart.Series mStabilitySeries = new XYChart.Series();
-        XYChart.Series nStabilitySeries = new XYChart.Series();
-        XYChart.Series hStabilitySeries = new XYChart.Series();
-        XYChart.Series membraneCurrentSeries = new XYChart.Series();
 
         for (int j = 0; j < resultsHandler.getTime().size(); j++) {
             mSeries.getData().add(new XYChart.Data(resultsHandler.getTime().get(j), resultsHandler.getmValuesArray().get(j)));
@@ -69,6 +123,33 @@ public class Controller implements Initializable {
             uSeries.getData().add(new XYChart.Data(resultsHandler.getTime().get(j), resultsHandler.getuValuesArray().get(j)));
             membraneCurrentSeries.getData().add(new XYChart.Data(resultsHandler.getTime().get(j), implementedEquations.getMembraneCurrentsArrayList().get(j)));
         }
+
+        dependencyBetweenUAndIonsStability();
+
+    }
+
+    private void initLabelsAndSliders() {
+        i_label.setText(String.valueOf(i_value_slider.getValue()));
+        simulation_time_label.setText(String.valueOf(simulation_time_slider.getValue()));
+        i_value_slider.valueProperty().addListener((observableValue, number, t1) ->
+                i_label.setText(String.valueOf(i_value_slider.getValue())));
+        simulation_time_slider.valueProperty().addListener((observableValue, number, t1) ->
+                simulation_time_label.setText(String.valueOf(simulation_time_slider.getValue())));
+    }
+
+    private void seriesInit() {
+        mSeries = new XYChart.Series();
+        nSeries = new XYChart.Series();
+        hSeries = new XYChart.Series();
+        uSeries = new XYChart.Series();
+        mStabilitySeries = new XYChart.Series();
+        nStabilitySeries = new XYChart.Series();
+        hStabilitySeries = new XYChart.Series();
+        membraneCurrentSeries = new XYChart.Series();
+    }
+
+
+    private void chartInit() {
         m_chart.setCreateSymbols(false);
         n_chart.setCreateSymbols(false);
         h_chart.setCreateSymbols(false);
@@ -80,18 +161,53 @@ public class Controller implements Initializable {
         u_chart.getData().add(uSeries);
         ions_chart.getData().add(membraneCurrentSeries);
     }
-    public void dependencyBetweenUAndIonsStability(){
-        for (int u=-50; u<150; u++){
-            calculateIonsStability(u);
 
+
+    private void showStats(SignalParameters statistics) {
+        peaks_frequency_label.setText(statistics.getFrequency() + "Hz");
+        peaks_max_label.setText(statistics.getMax() + "mV");
+        peaks_std_dev_label.setText(statistics.getStdDeviation() + "mV");
+        peaks_mean_label.setText(statistics.getMean() + "mV");
+    }
+
+
+    public void dependencyBetweenUAndIonsStability() {
+        for (int u = -50; u < 150; u++) {
+            calculateIonsStability(u);
+            if (!Double.isNaN(calculateIonsStability(u)[0]) && !Double.isNaN(calculateIonsStability(u)[1]) && !Double.isNaN(calculateIonsStability(u)[2])) {
+                mStabilitySeries.getData().add(new XYChart.Data(u, calculateIonsStability(u)[0]));
+                nStabilitySeries.getData().add(new XYChart.Data(u, calculateIonsStability(u)[1]));
+                hStabilitySeries.getData().add(new XYChart.Data(u, calculateIonsStability(u)[2]));
+            }
         }
+        mStabilitySeries.setName("m gated parameter");
+        nStabilitySeries.setName("n gated parameter");
+        hStabilitySeries.setName("h gated parameter");
+
+        stability_chart.getData().add(mStabilitySeries);
+        stability_chart.getData().add(nStabilitySeries);
+        stability_chart.getData().add(hStabilitySeries);
+
+        stability_chart.setCreateSymbols(false);
 
     }
-    public double [] calculateIonsStability(double u0){
 
-           double m = implementedEquations.alphaM(u0)/(implementedEquations.alphaM(u0)+implementedEquations.betaM(u0));
-           double n= implementedEquations.alphaN(u0)/(implementedEquations.alphaN(u0)+implementedEquations.betaN(u0));
-           double h = implementedEquations.alphaH(u0)/(implementedEquations.alphaH(u0)+implementedEquations.betaH(u0));
-        return new double[]{m,n,h};
+
+    public double[] calculateIonsStability(double u0) {
+        double m = implementedEquations.alphaM(u0) / (implementedEquations.alphaM(u0) + implementedEquations.betaM(u0));
+        double n = implementedEquations.alphaN(u0) / (implementedEquations.alphaN(u0) + implementedEquations.betaN(u0));
+        double h = implementedEquations.alphaH(u0) / (implementedEquations.alphaH(u0) + implementedEquations.betaH(u0));
+        return new double[]{m, n, h};
+    }
+
+    private void clearData() {
+        mSeries.getData().clear();
+        nSeries.getData().clear();
+        hSeries.getData().clear();
+        uSeries.getData().clear();
+        mStabilitySeries.getData().clear();
+        nStabilitySeries.getData().clear();
+        hStabilitySeries.getData().clear();
+        membraneCurrentSeries.getData().clear();
     }
 }

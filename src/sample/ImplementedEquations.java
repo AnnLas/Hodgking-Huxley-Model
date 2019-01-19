@@ -11,6 +11,8 @@ public class ImplementedEquations implements FirstOrderDifferentialEquations {
     //given current [uA/cm^2]
     private double i =0;
 
+    private double input_i;
+
     private double simulationTime;
     //Membrance capacitance [uF/xm^2]
     private static final double Cm = 1;
@@ -38,7 +40,8 @@ public class ImplementedEquations implements FirstOrderDifferentialEquations {
 
     private ArrayList<Double> membraneCurrentsArrayList;
 
-    public ImplementedEquations(double simulationEndTime) {
+    public ImplementedEquations(double simulationEndTime, double input_i) {
+        this.input_i = input_i;
         this.simulationTime = simulationEndTime;
         membraneCurrentsArrayList = new ArrayList<>();
     }
@@ -55,7 +58,7 @@ public class ImplementedEquations implements FirstOrderDifferentialEquations {
         //membrane current [uA/cm^2]
         double iSum =gNa*Math.pow(x[0],3)*x[2]*(x[3]-eNa)+gK*Math.pow(x[1],4)*(x[0]-eK)+gL*(x[3]-eL);
         if (t>simulationTime*0.15){
-            i=15;
+            i=input_i;
         }
         double iC = -iSum+i;
 
