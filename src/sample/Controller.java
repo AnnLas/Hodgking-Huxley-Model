@@ -35,6 +35,7 @@ public class Controller implements Initializable {
     private XYChart.Series membraneCurrentSeries;
 
     private ResultsHandler resultsHandler;
+    private SignalParameters statistics;
 
 
     private ImplementedEquations implementedEquations;
@@ -86,7 +87,9 @@ public class Controller implements Initializable {
     @FXML
     void simulate(MouseEvent event) {
         clearData();
-
+        calculateModel();
+        showStats(statistics);
+        addDataToCharts();
 
     }
 
@@ -96,34 +99,11 @@ public class Controller implements Initializable {
 
 
         initLabelsAndSliders();
-
-        implementedEquations = new ImplementedEquations(simulation_time_slider.getValue(), i_value_slider.getValue());
-
-        FirstOrderIntegrator erIntegrator = new EulerIntegrator(0.01);
-        resultsHandler = new ResultsHandler();
-        erIntegrator.addStepHandler(resultsHandler);
-
         seriesInit();
         chartInit();
-
-        infinityM = calculateIonsStability(u0)[0];
-        infinityN = calculateIonsStability(u0)[1];
-        infinityH = calculateIonsStability(u0)[2];
-
-        double[] xStart = {infinityM, infinityN, infinityH, u0};
-        erIntegrator.integrate(implementedEquations, 0, xStart, simulationEndTime, xStart);
-        SignalParameters statistics = new SignalParameters(resultsHandler.getuValuesArray(), resultsHandler.getTime());
+        calculateModel();
         showStats(statistics);
-
-
-        for (int j = 0; j < resultsHandler.getTime().size(); j++) {
-            mSeries.getData().add(new XYChart.Data(resultsHandler.getTime().get(j), resultsHandler.getmValuesArray().get(j)));
-            nSeries.getData().add(new XYChart.Data(resultsHandler.getTime().get(j), resultsHandler.getnValuesArray().get(j)));
-            hSeries.getData().add(new XYChart.Data(resultsHandler.getTime().get(j), resultsHandler.gethValuesArray().get(j)));
-            uSeries.getData().add(new XYChart.Data(resultsHandler.getTime().get(j), resultsHandler.getuValuesArray().get(j)));
-            membraneCurrentSeries.getData().add(new XYChart.Data(resultsHandler.getTime().get(j), implementedEquations.getMembraneCurrentsArrayList().get(j)));
-        }
-
+        addDataToCharts();
         dependencyBetweenUAndIonsStability();
 
     }
@@ -155,10 +135,6 @@ public class Controller implements Initializable {
         h_chart.setCreateSymbols(false);
         u_chart.setCreateSymbols(false);
         ions_chart.setCreateSymbols(false);
-        m_chart.getData().add(mSeries);
-        n_chart.getData().add(nSeries);
-        h_chart.getData().add(hSeries);
-        u_chart.getData().add(uSeries);
         ions_chart.getData().add(membraneCurrentSeries);
     }
 
@@ -201,13 +177,51 @@ public class Controller implements Initializable {
     }
 
     private void clearData() {
-        mSeries.getData().clear();
-        nSeries.getData().clear();
-        hSeries.getData().clear();
-        uSeries.getData().clear();
-        mStabilitySeries.getData().clear();
-        nStabilitySeries.getData().clear();
-        hStabilitySeries.getData().clear();
+        m_chart.getData().clear();
+        n_chart.getData().clear();
+        h_chart.getData().clear();
+        u_chart.getData().clear();
+        seriesInit();
+        n_chart.getData().clear();
+        h_chart.getData().clear();
+        u_chart.getData().clear();
         membraneCurrentSeries.getData().clear();
+    }
+    private void calculateModel(){
+        implementedEquations = new ImplementedEquations(simulation_time_slider.getValue(), i_value_slider.getValue());
+
+        FirstOrderIntegrator erIntegrator = new EulerIntegrator(0.01);
+        resultsHandler = new ResultsHandler();
+        erIntegrator.addStepHandler(resultsHandler);
+        infinityM = calculateIonsStability(u0)[0];
+        infinityN = calculateIonsStability(u0)[1];
+        infinityH = calculateIonsStability(u0)[2];
+        double[] xStart = {infinityM, infinityN, infinityH, u0};
+        erIntegrator.integrate(implementedEquations, 0, xStart, simulation_time_slider.getValue(), xStart);
+        statistics = new SignalParameters(resultsHandler.getuValuesArray(), resultsHandler.getTime());
+    }
+    private void addDataToCharts(){
+        for (int j = 0; j < resultsHandler.getTime().size(); j++) {
+            if (!Double.isNaN(resultsHandler.getmValuesArray().get(j))) {
+                mSeries.getData().add(new XYChart.Data(resultsHandler.getTime().get(j), resultsHandler.getmValuesArray().get(j)));
+            }
+            if (!Double.isNaN(resultsHandler.getnValuesArray().get(j))) {
+                nSeries.getData().add(new XYChart.Data(resultsHandler.getTime().get(j), resultsHandler.getnValuesArray().get(j)));
+            }
+            if (!Double.isNaN(resultsHandler.gethValuesArray().get(j))) {
+                hSeries.getData().add(new XYChart.Data(resultsHandler.getTime().get(j), resultsHandler.gethValuesArray().get(j)));
+            }
+            if (!Double.isNaN(resultsHandler.getuValuesArray().get(j))) {
+                uSeries.getData().add(new XYChart.Data(resultsHandler.getTime().get(j), resultsHandler.getuValuesArray().get(j)));
+            }
+
+            membraneCurrentSeries.getData().add(new XYChart.Data(resultsHandler.getTime().get(j), implementedEquations.getMembraneCurrentsArrayList().get(j)));
+        }
+        m_chart.getData().add(mSeries);
+        n_chart.getData().add(nSeries);
+        h_chart.getData().add(hSeries);
+        u_chart.getData().add(uSeries);
+
+
     }
 }
