@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public class ImplementedEquations implements FirstOrderDifferentialEquations {
 
+    //given current [uA/cm^2]
     private double i =0;
 
     private double simulationTime;
@@ -35,8 +36,11 @@ public class ImplementedEquations implements FirstOrderDifferentialEquations {
     //Leak Nernst reversal potentials [mV]
     private static final double eL = -54.387;
 
+    private ArrayList<Double> membraneCurrentsArrayList;
+
     public ImplementedEquations(double simulationEndTime) {
         this.simulationTime = simulationEndTime;
+        membraneCurrentsArrayList = new ArrayList<>();
     }
 
     @Override
@@ -64,6 +68,7 @@ public class ImplementedEquations implements FirstOrderDifferentialEquations {
         dxdt[2] = alphaH(x[3])*(1-x[2])-betaH(x[3])*x[2];
         //u
         dxdt[3] = (-(gNa*Math.pow(x[0],3)*x[2]*(x[3]-eNa)+gK*Math.pow(x[1],4)*(x[3]-eK)+gL*(x[3]-eL))+i)/Cm;
+        membraneCurrentsArrayList.add(iSum);
         System.out.println(i);
     }
 
@@ -92,6 +97,8 @@ public class ImplementedEquations implements FirstOrderDifferentialEquations {
     public double betaH(double u){
         return (1/(Math.exp((30-u)/10)-1));
     }
-
-
+    //Returns array list of membrane current
+    public ArrayList<Double> getMembraneCurrentsArrayList() {
+        return membraneCurrentsArrayList;
+    }
 }

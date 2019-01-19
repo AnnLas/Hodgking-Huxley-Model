@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -31,7 +30,7 @@
           <NumberAxis label="time[ms]" side="BOTTOM" />
         </xAxis>
         <yAxis>
-          <NumberAxis side="LEFT" />
+          <NumberAxis label="U[mV]" side="LEFT" />
         </yAxis>
       </LineChart>
       <LineChart fx:id="h_chart" title="H parameter" GridPane.rowIndex="1">
@@ -39,7 +38,7 @@
           <NumberAxis label="time[ms]" side="BOTTOM" />
         </xAxis>
         <yAxis>
-          <NumberAxis side="LEFT" />
+          <NumberAxis label="U[mV]" side="LEFT" />
         </yAxis>
       </LineChart>
       <LineChart fx:id="u_chart" title="U value" GridPane.columnIndex="1" GridPane.rowIndex="1">
@@ -47,23 +46,23 @@
           <NumberAxis label="time[ms]" side="BOTTOM" />
         </xAxis>
         <yAxis>
-          <NumberAxis side="LEFT" />
+          <NumberAxis label="U[mV]" side="LEFT" />
         </yAxis>
       </LineChart>
-      <LineChart fx:id="ions_chart" title="Ion currents voltage" GridPane.rowIndex="2">
+      <LineChart fx:id="ions_chart" title="Ions currents voltage" GridPane.rowIndex="2">
         <xAxis>
-          <NumberAxis side="BOTTOM" />
+          <NumberAxis label="time[m/s]" side="BOTTOM" />
         </xAxis>
         <yAxis>
-          <NumberAxis side="LEFT" />
+          <NumberAxis label="u[mV]" side="LEFT" />
         </yAxis>
       </LineChart>
       <LineChart fx:id="stability_chart" title="Parameter stability" GridPane.columnIndex="1" GridPane.rowIndex="2">
         <xAxis>
-          <NumberAxis side="BOTTOM" />
+          <NumberAxis label="u[mV]" side="BOTTOM" />
         </xAxis>
         <yAxis>
-          <NumberAxis side="LEFT" />
+          <NumberAxis label="m,h,n[mV]" side="LEFT" />
         </yAxis>
       </LineChart>
    </children>
