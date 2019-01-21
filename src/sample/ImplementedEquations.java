@@ -15,30 +15,44 @@ public class ImplementedEquations implements FirstOrderDifferentialEquations {
 
     private double simulationTime;
     //Membrance capacitance [uF/xm^2]
-    private static final double Cm = 1;
+    private  double Cm = 1;
 
     //Sodium Ion channel variables:
 
     //Sodium maximum conductances [ms/cm^2]
-    private static final double gNa = 120;
+    private   double gNa = 120;
     //Sodium Nernst reversal potentials [mV]
-    private static final double eNa = 50;
+    private   double eNa = 50;
 
     //Potassium Ion channel variables:
 
     //Potassium maximum conductances [ms/cm^2]
-    private static final double gK = 36;
+    private   double gK = 36;
     //Potassium Nernst reversal potentials [mV]
-    private static final double eK = -77;
+    private  double eK = -77;
 
     //Passive leak channel varianles
 
     //Leak maximum conductances [mS/cm^2]
-    private static final double gL = -0.3;
+    private  double gL = -0.3;
     //Leak Nernst reversal potentials [mV]
-    private static final double eL = -54.387;
+    private  double eL = -54.387;
 
     private ArrayList<Double> membraneCurrentsArrayList;
+
+    public ImplementedEquations( double simulationTime,double input_i, double cm, double gNa, double eNa, double gK, double eK, double gL, double eL) {
+
+        this.input_i = input_i;
+        this.simulationTime = simulationTime;
+        this.Cm = cm;
+        this.gNa = gNa;
+        this.eNa = eNa;
+        this.gK = gK;
+        this.eK = eK;
+        this.gL = gL;
+        this.eL = eL;
+        membraneCurrentsArrayList = new ArrayList<>();
+    }
 
     public ImplementedEquations(double simulationEndTime, double input_i) {
         this.input_i = input_i;

@@ -83,6 +83,48 @@ public class Controller implements Initializable {
     @FXML
     private Slider simulation_time_slider;
 
+    @FXML
+    private Label c_parameter_text;
+
+    @FXML
+    private Slider c_parameter_slider;
+
+    @FXML
+    private Label ENa_parameter_text;
+
+    @FXML
+    private Slider ENa_parameter_slider;
+
+    @FXML
+    private Label EK_parameter_text;
+
+    @FXML
+    private Slider EK_parameter_slider;
+
+    @FXML
+    private Label EL_parameter_text;
+
+    @FXML
+    private Slider EL_parameter_slider;
+
+    @FXML
+    private Label gNa_parameter_text;
+
+    @FXML
+    private Slider gNa_parameter_slider;
+
+    @FXML
+    private Label gK_parameter_text;
+
+    @FXML
+    private Slider gK_parameter_slider;
+
+    @FXML
+    private Label gL_parameter_text;
+
+    @FXML
+    private Slider gL_parameter_slider;
+
 
     @FXML
     void simulate(MouseEvent event) {
@@ -96,8 +138,6 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
-
         initLabelsAndSliders();
         seriesInit();
         chartInit();
@@ -109,12 +149,39 @@ public class Controller implements Initializable {
     }
 
     private void initLabelsAndSliders() {
-        i_label.setText(String.valueOf(i_value_slider.getValue()));
-        simulation_time_label.setText(String.valueOf(simulation_time_slider.getValue()));
+        i_label.setText(String.format("I:%.2f",i_value_slider.getValue()));
+        simulation_time_label.setText(String.format("simulation time:%.2f",simulation_time_slider.getValue()));
+        c_parameter_text.setText(String.format("C:%.2f[uF/cm^2]",c_parameter_slider.getValue()));
+        EL_parameter_text.setText(String.format("EL:%.2f[mV]",EL_parameter_slider.getValue()));
+        EK_parameter_text.setText(String.format("EK:%.2f[mV]",EK_parameter_slider.getValue()));
+        ENa_parameter_text.setText(String.format("ENa:%.2f[mV]",ENa_parameter_slider.getValue()));
+        gNa_parameter_text.setText(String.format("gNa:%.2f[mS/cm^2]",gNa_parameter_slider.getValue()));
+        gK_parameter_text.setText(String.format("gK:%.2f[mS/cm^2]",gK_parameter_slider.getValue()));
+        gL_parameter_text.setText(String.format("gL:%.2f[mS/cm^2]",gL_parameter_slider.getValue()));
+
+
+
         i_value_slider.valueProperty().addListener((observableValue, number, t1) ->
-                i_label.setText(String.valueOf(i_value_slider.getValue())));
+                i_label.setText(String.format("I:%.2f[uA/cm^2]",i_value_slider.getValue())));
         simulation_time_slider.valueProperty().addListener((observableValue, number, t1) ->
-                simulation_time_label.setText(String.valueOf(simulation_time_slider.getValue())));
+                simulation_time_label.setText(String.format("simulation time:%.2f[ms]",simulation_time_slider.getValue())));
+        c_parameter_slider.valueProperty().addListener((observableValue, number, t1) ->
+                c_parameter_text.setText(String.format("C:%.2f[uF/cm^2]",c_parameter_slider.getValue())));
+        EL_parameter_slider.valueProperty().addListener((observableValue, number, t1) ->
+                EL_parameter_text.setText(String.format("EL:%.2f[mV]",EL_parameter_slider.getValue())));
+        EK_parameter_slider.valueProperty().addListener((observableValue, number, t1) ->
+                EK_parameter_text.setText(String.format("EK:%.2f[mV]",EK_parameter_slider.getValue())));
+        ENa_parameter_slider.valueProperty().addListener((observableValue, number, t1) ->
+                ENa_parameter_text.setText(String.format("ENa:%.2f[mV]",ENa_parameter_slider.getValue())));
+        gK_parameter_slider.valueProperty().addListener((observableValue, number, t1) ->
+                gK_parameter_text.setText(String.format("gK:%.2f[mS/cm^2]",gK_parameter_slider.getValue())));
+        gNa_parameter_slider.valueProperty().addListener((observableValue, number, t1) ->
+                gNa_parameter_text.setText(String.format("gNa:%.2f[mS/cm^2]",gNa_parameter_slider.getValue())));
+        gL_parameter_slider.valueProperty().addListener((observableValue, number, t1) ->
+                gL_parameter_text.setText(String.format("gL:%.2f[mS/cm^2]",gL_parameter_slider.getValue())));
+
+
+
     }
 
     private void seriesInit() {
@@ -140,10 +207,10 @@ public class Controller implements Initializable {
 
 
     private void showStats(SignalParameters statistics) {
-        peaks_frequency_label.setText(statistics.getFrequency() + "Hz");
-        peaks_max_label.setText(statistics.getMax() + "mV");
-        peaks_std_dev_label.setText(statistics.getStdDeviation() + "mV");
-        peaks_mean_label.setText(statistics.getMean() + "mV");
+        peaks_frequency_label.setText(String.format("%.2f[Hz]",statistics.getFrequency()));
+        peaks_max_label.setText(String.format("%.2f[mV]",statistics.getMax()));
+        peaks_std_dev_label.setText(String.format("%.2f[mV]",statistics.getStdDeviation()));
+        peaks_mean_label.setText(String.format("%.2f[mV]",statistics.getMean()));
     }
 
 
@@ -181,15 +248,16 @@ public class Controller implements Initializable {
         n_chart.getData().clear();
         h_chart.getData().clear();
         u_chart.getData().clear();
+        ions_chart.getData().clear();
         seriesInit();
-        n_chart.getData().clear();
-        h_chart.getData().clear();
-        u_chart.getData().clear();
-        membraneCurrentSeries.getData().clear();
-    }
-    private void calculateModel(){
-        implementedEquations = new ImplementedEquations(simulation_time_slider.getValue(), i_value_slider.getValue());
 
+    }
+
+    private void calculateModel() {
+        implementedEquations = new ImplementedEquations(simulation_time_slider.getValue(), i_value_slider.getValue());
+//        implementedEquations = new ImplementedEquations(simulation_time_slider.getValue(), i_value_slider.getValue(),
+//                c_parameter_slider.getValue(),gNa_parameter_slider.getValue(),ENa_parameter_slider.getValue(),gK_parameter_slider.getValue(),
+//                EK_parameter_slider.getValue(),gL_parameter_slider.getValue(),EL_parameter_slider.getValue());
         FirstOrderIntegrator erIntegrator = new EulerIntegrator(0.01);
         resultsHandler = new ResultsHandler();
         erIntegrator.addStepHandler(resultsHandler);
@@ -200,7 +268,8 @@ public class Controller implements Initializable {
         erIntegrator.integrate(implementedEquations, 0, xStart, simulation_time_slider.getValue(), xStart);
         statistics = new SignalParameters(resultsHandler.getuValuesArray(), resultsHandler.getTime());
     }
-    private void addDataToCharts(){
+
+    private void addDataToCharts() {
         for (int j = 0; j < resultsHandler.getTime().size(); j++) {
             if (!Double.isNaN(resultsHandler.getmValuesArray().get(j))) {
                 mSeries.getData().add(new XYChart.Data(resultsHandler.getTime().get(j), resultsHandler.getmValuesArray().get(j)));
@@ -214,13 +283,16 @@ public class Controller implements Initializable {
             if (!Double.isNaN(resultsHandler.getuValuesArray().get(j))) {
                 uSeries.getData().add(new XYChart.Data(resultsHandler.getTime().get(j), resultsHandler.getuValuesArray().get(j)));
             }
+            if (!Double.isNaN(implementedEquations.getMembraneCurrentsArrayList().get(j))) {
+                membraneCurrentSeries.getData().add(new XYChart.Data(resultsHandler.getTime().get(j), implementedEquations.getMembraneCurrentsArrayList().get(j)));
+            }
 
-            membraneCurrentSeries.getData().add(new XYChart.Data(resultsHandler.getTime().get(j), implementedEquations.getMembraneCurrentsArrayList().get(j)));
         }
         m_chart.getData().add(mSeries);
         n_chart.getData().add(nSeries);
         h_chart.getData().add(hSeries);
         u_chart.getData().add(uSeries);
+        ions_chart.getData().add(membraneCurrentSeries);
 
 
     }

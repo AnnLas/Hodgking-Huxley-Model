@@ -56,7 +56,7 @@
           <NumberAxis label="U[mV]" side="LEFT" />
         </yAxis>
       </LineChart>
-      <LineChart fx:id="ions_chart" legendVisible="false" title="Ions currents voltage" GridPane.rowIndex="2">
+      <LineChart fx:id="ions_chart" legendVisible="false" title="Ions currents " GridPane.rowIndex="2">
         <xAxis>
           <NumberAxis label="time[m/s]" side="BOTTOM" />
         </xAxis>
@@ -152,5 +152,42 @@
             <Button alignment="CENTER" mnemonicParsing="false" onMouseClicked="#simulate" text="Simulate" />
          </children>
       </VBox>
+      <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+         <children>
+            <GridPane>
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
+                     <children>
+                        <Label fx:id="gNa_parameter_text" text="gNa[mS/cm^2]" />
+                        <Slider fx:id="gNa_parameter_slider" max="260.0" min="120.0" value="120.0" />
+                        <Label fx:id="gK_parameter_text" layoutX="10.0" layoutY="10.0" text="gK[mS/cm^2]" />
+                        <Slider fx:id="gK_parameter_slider" blockIncrement="2.0" layoutX="10.0" layoutY="26.0" max="40.0" min="26.0" value="36.0" />
+                        <Label fx:id="gL_parameter_text" layoutX="10.0" layoutY="42.0" text="gL[mS/cm^2]" />
+                        <Slider fx:id="gL_parameter_slider" blockIncrement="0.1" layoutX="10.0" layoutY="58.0" max="0.5" min="0.13" value="0.3" />
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Label fx:id="c_parameter_text" text="C[uF/cm^2]" />
+                        <Slider fx:id="c_parameter_slider" blockIncrement="0.1" max="1.5" min="0.8" value="1.0" />
+                        <Label fx:id="ENa_parameter_text" layoutX="10.0" layoutY="10.0" text="ENa[mV]" />
+                        <Slider fx:id="ENa_parameter_slider" blockIncrement="1.0" layoutX="10.0" layoutY="26.0" max="119.0" min="100.0" value="115.0" />
+                        <Label fx:id="EK_parameter_text" layoutX="10.0" layoutY="42.0" text="EK[mV]" />
+                        <Slider fx:id="EK_parameter_slider" blockIncrement="1.0" layoutX="10.0" layoutY="58.0" max="-4.0" min="-12.0" value="-12.0" />
+                        <Label fx:id="EL_parameter_text" layoutX="10.0" layoutY="74.0" text="EL[mV]" />
+                        <Slider fx:id="EL_parameter_slider" blockIncrement="2.0" layoutX="10.0" layoutY="90.0" max="22.0" min="4.0" value="10.6" />
+                     </children>
+                  </VBox>
+               </children>
+            </GridPane>
+         </children>
+      </HBox>
    </children>
 </GridPane>
