@@ -1,7 +1,5 @@
 package sample;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
@@ -17,7 +15,6 @@ import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
     private static final double u0 = 0;
-    private double simulationEndTime = 50;
     //Initial values for calculations
     private double infinityM;
     private double infinityN;
@@ -149,37 +146,35 @@ public class Controller implements Initializable {
     }
 
     private void initLabelsAndSliders() {
-        i_label.setText(String.format("I:%.2f",i_value_slider.getValue()));
-        simulation_time_label.setText(String.format("simulation time:%.2f",simulation_time_slider.getValue()));
-        c_parameter_text.setText(String.format("C:%.2f[uF/cm^2]",c_parameter_slider.getValue()));
-        EL_parameter_text.setText(String.format("EL:%.2f[mV]",EL_parameter_slider.getValue()));
-        EK_parameter_text.setText(String.format("EK:%.2f[mV]",EK_parameter_slider.getValue()));
-        ENa_parameter_text.setText(String.format("ENa:%.2f[mV]",ENa_parameter_slider.getValue()));
-        gNa_parameter_text.setText(String.format("gNa:%.2f[mS/cm^2]",gNa_parameter_slider.getValue()));
-        gK_parameter_text.setText(String.format("gK:%.2f[mS/cm^2]",gK_parameter_slider.getValue()));
-        gL_parameter_text.setText(String.format("gL:%.2f[mS/cm^2]",gL_parameter_slider.getValue()));
-
+        i_label.setText(String.format("I:%.2f", i_value_slider.getValue()));
+        simulation_time_label.setText(String.format("simulation time:%.2f", simulation_time_slider.getValue()));
+        c_parameter_text.setText(String.format("C:%.2f[uF/cm^2]", c_parameter_slider.getValue()));
+        EL_parameter_text.setText(String.format("EL:%.2f[mV]", EL_parameter_slider.getValue()));
+        EK_parameter_text.setText(String.format("EK:%.2f[mV]", EK_parameter_slider.getValue()));
+        ENa_parameter_text.setText(String.format("ENa:%.2f[mV]", ENa_parameter_slider.getValue()));
+        gNa_parameter_text.setText(String.format("gNa:%.2f[mS/cm^2]", gNa_parameter_slider.getValue()));
+        gK_parameter_text.setText(String.format("gK:%.2f[mS/cm^2]", gK_parameter_slider.getValue()));
+        gL_parameter_text.setText(String.format("gL:%.2f[mS/cm^2]", gL_parameter_slider.getValue()));
 
 
         i_value_slider.valueProperty().addListener((observableValue, number, t1) ->
-                i_label.setText(String.format("I:%.2f[uA/cm^2]",i_value_slider.getValue())));
+                i_label.setText(String.format("I:%.2f[uA/cm^2]", i_value_slider.getValue())));
         simulation_time_slider.valueProperty().addListener((observableValue, number, t1) ->
-                simulation_time_label.setText(String.format("simulation time:%.2f[ms]",simulation_time_slider.getValue())));
+                simulation_time_label.setText(String.format("simulation time:%.2f[ms]", simulation_time_slider.getValue())));
         c_parameter_slider.valueProperty().addListener((observableValue, number, t1) ->
-                c_parameter_text.setText(String.format("C:%.2f[uF/cm^2]",c_parameter_slider.getValue())));
+                c_parameter_text.setText(String.format("C:%.2f[uF/cm^2]", c_parameter_slider.getValue())));
         EL_parameter_slider.valueProperty().addListener((observableValue, number, t1) ->
-                EL_parameter_text.setText(String.format("EL:%.2f[mV]",EL_parameter_slider.getValue())));
+                EL_parameter_text.setText(String.format("EL:%.2f[mV]", EL_parameter_slider.getValue())));
         EK_parameter_slider.valueProperty().addListener((observableValue, number, t1) ->
-                EK_parameter_text.setText(String.format("EK:%.2f[mV]",EK_parameter_slider.getValue())));
+                EK_parameter_text.setText(String.format("EK:%.2f[mV]", EK_parameter_slider.getValue())));
         ENa_parameter_slider.valueProperty().addListener((observableValue, number, t1) ->
-                ENa_parameter_text.setText(String.format("ENa:%.2f[mV]",ENa_parameter_slider.getValue())));
+                ENa_parameter_text.setText(String.format("ENa:%.2f[mV]", ENa_parameter_slider.getValue())));
         gK_parameter_slider.valueProperty().addListener((observableValue, number, t1) ->
-                gK_parameter_text.setText(String.format("gK:%.2f[mS/cm^2]",gK_parameter_slider.getValue())));
+                gK_parameter_text.setText(String.format("gK:%.2f[mS/cm^2]", gK_parameter_slider.getValue())));
         gNa_parameter_slider.valueProperty().addListener((observableValue, number, t1) ->
-                gNa_parameter_text.setText(String.format("gNa:%.2f[mS/cm^2]",gNa_parameter_slider.getValue())));
+                gNa_parameter_text.setText(String.format("gNa:%.2f[mS/cm^2]", gNa_parameter_slider.getValue())));
         gL_parameter_slider.valueProperty().addListener((observableValue, number, t1) ->
-                gL_parameter_text.setText(String.format("gL:%.2f[mS/cm^2]",gL_parameter_slider.getValue())));
-
+                gL_parameter_text.setText(String.format("gL:%.2f[mS/cm^2]", gL_parameter_slider.getValue())));
 
 
     }
@@ -202,15 +197,15 @@ public class Controller implements Initializable {
         h_chart.setCreateSymbols(false);
         u_chart.setCreateSymbols(false);
         ions_chart.setCreateSymbols(false);
-        ions_chart.getData().add(membraneCurrentSeries);
+
     }
 
 
     private void showStats(SignalParameters statistics) {
-        peaks_frequency_label.setText(String.format("%.2f[Hz]",statistics.getFrequency()));
-        peaks_max_label.setText(String.format("%.2f[mV]",statistics.getMax()));
-        peaks_std_dev_label.setText(String.format("%.2f[mV]",statistics.getStdDeviation()));
-        peaks_mean_label.setText(String.format("%.2f[mV]",statistics.getMean()));
+        peaks_frequency_label.setText(String.format("%.2f[Hz]", statistics.getFrequency()));
+        peaks_max_label.setText(String.format("%.2f[mV]", statistics.getMax()));
+        peaks_std_dev_label.setText(String.format("%.2f[mV]", statistics.getStdDeviation()));
+        peaks_mean_label.setText(String.format("%.2f[mV]", statistics.getMean()));
     }
 
 
@@ -254,10 +249,9 @@ public class Controller implements Initializable {
     }
 
     private void calculateModel() {
-        implementedEquations = new ImplementedEquations(simulation_time_slider.getValue(), i_value_slider.getValue());
-//        implementedEquations = new ImplementedEquations(simulation_time_slider.getValue(), i_value_slider.getValue(),
-//                c_parameter_slider.getValue(),gNa_parameter_slider.getValue(),ENa_parameter_slider.getValue(),gK_parameter_slider.getValue(),
-//                EK_parameter_slider.getValue(),gL_parameter_slider.getValue(),EL_parameter_slider.getValue());
+        //     implementedEquations = new ImplementedEquations(simulation_time_slider.getValue(), i_value_slider.getValue());
+        implementedEquations = new ImplementedEquations(simulation_time_slider.getValue(), i_value_slider.getValue(), c_parameter_slider.getValue(), gNa_parameter_slider.getValue(), ENa_parameter_slider.getValue(), gK_parameter_slider.getValue(),
+                EK_parameter_slider.getValue(), gL_parameter_slider.getValue(), EL_parameter_slider.getValue());
         FirstOrderIntegrator erIntegrator = new EulerIntegrator(0.01);
         resultsHandler = new ResultsHandler();
         erIntegrator.addStepHandler(resultsHandler);
@@ -271,21 +265,12 @@ public class Controller implements Initializable {
 
     private void addDataToCharts() {
         for (int j = 0; j < resultsHandler.getTime().size(); j++) {
-            if (!Double.isNaN(resultsHandler.getmValuesArray().get(j))) {
-                mSeries.getData().add(new XYChart.Data(resultsHandler.getTime().get(j), resultsHandler.getmValuesArray().get(j)));
-            }
-            if (!Double.isNaN(resultsHandler.getnValuesArray().get(j))) {
-                nSeries.getData().add(new XYChart.Data(resultsHandler.getTime().get(j), resultsHandler.getnValuesArray().get(j)));
-            }
-            if (!Double.isNaN(resultsHandler.gethValuesArray().get(j))) {
-                hSeries.getData().add(new XYChart.Data(resultsHandler.getTime().get(j), resultsHandler.gethValuesArray().get(j)));
-            }
-            if (!Double.isNaN(resultsHandler.getuValuesArray().get(j))) {
-                uSeries.getData().add(new XYChart.Data(resultsHandler.getTime().get(j), resultsHandler.getuValuesArray().get(j)));
-            }
-            if (!Double.isNaN(implementedEquations.getMembraneCurrentsArrayList().get(j))) {
-                membraneCurrentSeries.getData().add(new XYChart.Data(resultsHandler.getTime().get(j), implementedEquations.getMembraneCurrentsArrayList().get(j)));
-            }
+            mSeries.getData().add(new XYChart.Data(resultsHandler.getTime().get(j), resultsHandler.getmValuesArray().get(j)));
+            nSeries.getData().add(new XYChart.Data(resultsHandler.getTime().get(j), resultsHandler.getnValuesArray().get(j)));
+            hSeries.getData().add(new XYChart.Data(resultsHandler.getTime().get(j), resultsHandler.gethValuesArray().get(j)));
+            uSeries.getData().add(new XYChart.Data(resultsHandler.getTime().get(j), resultsHandler.getuValuesArray().get(j)));
+            membraneCurrentSeries.getData().add(new XYChart.Data(resultsHandler.getTime().get(j), implementedEquations.getMembraneCurrentsArrayList().get(j)));
+
 
         }
         m_chart.getData().add(mSeries);

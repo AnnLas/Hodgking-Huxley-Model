@@ -33,7 +33,7 @@ public class SignalParameters {
 
         }
 
-        frequency = (1/((peaksTime.get(peaksTime.size()-1)-peaksTime.get(0))/peaks.size()))*1000;
+        frequency = (1 / ((peaksTime.get(peaksTime.size() - 1) - peaksTime.get(0)) / peaks.size())) * 1000;
         max = statistics.getMax();
         mean = statistics.getMean();
         stdDeviation = statistics.getStandardDeviation();

@@ -24,7 +24,7 @@
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <LineChart fx:id="m_chart" legendVisible="false" title="M parameter">
+      <LineChart fx:id="m_chart" createSymbols="false" legendVisible="false" title="M parameter">
         <xAxis>
           <NumberAxis label="time[ms]" side="BOTTOM" />
         </xAxis>
@@ -48,20 +48,20 @@
           <NumberAxis label="U[mV]" side="LEFT" />
         </yAxis>
       </LineChart>
-      <LineChart fx:id="u_chart" legendVisible="false" title="U value" GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <LineChart fx:id="u_chart" createSymbols="false" legendVisible="false" title="U value" GridPane.columnIndex="1" GridPane.rowIndex="1">
         <xAxis>
-          <NumberAxis label="time[ms]" side="BOTTOM" />
+          <NumberAxis animated="false" label="time[ms]" side="BOTTOM" />
         </xAxis>
         <yAxis>
-          <NumberAxis label="U[mV]" side="LEFT" />
+          <NumberAxis animated="false" label="U[mV]" side="LEFT" />
         </yAxis>
       </LineChart>
       <LineChart fx:id="ions_chart" legendVisible="false" title="Ions currents " GridPane.rowIndex="2">
         <xAxis>
-          <NumberAxis label="time[m/s]" side="BOTTOM" />
+          <NumberAxis animated="false" label="time[m/s]" side="BOTTOM" />
         </xAxis>
         <yAxis>
-          <NumberAxis label="u[mV]" side="LEFT" />
+          <NumberAxis animated="false" label="u[mV]" side="LEFT" />
         </yAxis>
       </LineChart>
       <LineChart fx:id="stability_chart" title="Parameter stability" GridPane.columnIndex="1" GridPane.rowIndex="2">
