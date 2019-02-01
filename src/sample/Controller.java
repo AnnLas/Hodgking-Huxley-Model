@@ -1,15 +1,22 @@
 package sample;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.apache.commons.math3.ode.FirstOrderIntegrator;
 import org.apache.commons.math3.ode.nonstiff.EulerIntegrator;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -132,6 +139,33 @@ public class Controller implements Initializable {
 
     }
 
+    @FXML
+    void showIonsCurrentsCharts(MouseEvent event) {
+
+
+
+
+        try {
+           FXMLLoader loader = new FXMLLoader(getClass().getResource("ions_charts.fxml"));
+            Stage stage = new Stage(StageStyle.DECORATED);
+            stage.setScene(new Scene(loader.load()));
+            IonsCharts ionsCharts = loader.<IonsCharts>getController();
+                   ionsCharts.initData(resultsHandler.getTime(),
+               implementedEquations.getMembraneCurrentsArrayList().get(1),
+               implementedEquations.getMembraneCurrentsArrayList().get(2),
+               implementedEquations.getMembraneCurrentsArrayList().get(3));
+
+            stage.setTitle("Hodgking - Huxley model");
+            stage.show();
+
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -249,7 +283,6 @@ public class Controller implements Initializable {
     }
 
     private void calculateModel() {
-        //     implementedEquations = new ImplementedEquations(simulation_time_slider.getValue(), i_value_slider.getValue());
         implementedEquations = new ImplementedEquations(simulation_time_slider.getValue(), i_value_slider.getValue(), c_parameter_slider.getValue(), gNa_parameter_slider.getValue(), ENa_parameter_slider.getValue(), gK_parameter_slider.getValue(),
                 EK_parameter_slider.getValue(), gL_parameter_slider.getValue(), EL_parameter_slider.getValue());
         FirstOrderIntegrator erIntegrator = new EulerIntegrator(0.01);
@@ -269,7 +302,7 @@ public class Controller implements Initializable {
             nSeries.getData().add(new XYChart.Data(resultsHandler.getTime().get(j), resultsHandler.getnValuesArray().get(j)));
             hSeries.getData().add(new XYChart.Data(resultsHandler.getTime().get(j), resultsHandler.gethValuesArray().get(j)));
             uSeries.getData().add(new XYChart.Data(resultsHandler.getTime().get(j), resultsHandler.getuValuesArray().get(j)));
-            membraneCurrentSeries.getData().add(new XYChart.Data(resultsHandler.getTime().get(j), implementedEquations.getMembraneCurrentsArrayList().get(j)));
+            membraneCurrentSeries.getData().add(new XYChart.Data(resultsHandler.getTime().get(j), implementedEquations.getMembraneCurrentsArrayList().get(0).get(j)));
 
 
         }

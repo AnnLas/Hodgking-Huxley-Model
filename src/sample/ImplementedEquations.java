@@ -39,7 +39,11 @@ public class ImplementedEquations implements FirstOrderDifferentialEquations {
     private double eL = 10.6;
 
 
-    private ArrayList<Double> membraneCurrentsArrayList;
+    private ArrayList<ArrayList<Double>> membraneCurrentsArrayList;
+    private ArrayList<Double> naCurrents;
+    private ArrayList<Double> kCurrents;
+    private ArrayList<Double> lCurrents;
+    private ArrayList<Double> currentsSum;
 
     public ImplementedEquations(double simulationTime, double input_i, double cm, double gNa, double eNa, double gK, double eK, double gL, double eL) {
 
@@ -52,14 +56,22 @@ public class ImplementedEquations implements FirstOrderDifferentialEquations {
         this.eK = eK;
         this.gL = gL;
         this.eL = eL;
+
+
+        naCurrents = new ArrayList<>();
+        kCurrents = new ArrayList<>();
+        lCurrents = new ArrayList<>();
+        currentsSum = new ArrayList<>();
         membraneCurrentsArrayList = new ArrayList<>();
+
+        membraneCurrentsArrayList.add(currentsSum);
+        membraneCurrentsArrayList.add(naCurrents);
+        membraneCurrentsArrayList.add(kCurrents);
+        membraneCurrentsArrayList.add(lCurrents);
+
     }
 
-    public ImplementedEquations(double simulationEndTime, double input_i) {
-        this.input_i = input_i;
-        this.simulationTime = simulationEndTime;
-        membraneCurrentsArrayList = new ArrayList<>();
-    }
+
 
     @Override
     public int getDimension() {
@@ -77,7 +89,7 @@ public class ImplementedEquations implements FirstOrderDifferentialEquations {
         }
 
 
-        System.out.println(i);
+
         //m
         dxdt[0] = alphaM(x[3]) * (1 - x[0]) - betaM(x[3]) * x[0];
         //n
@@ -86,7 +98,10 @@ public class ImplementedEquations implements FirstOrderDifferentialEquations {
         dxdt[2] = alphaH(x[3]) * (1 - x[2]) - betaH(x[3]) * x[2];
         //u
         dxdt[3] = (-(gNa * Math.pow(x[0], 3) * x[2] * (x[3] - eNa) + gK * Math.pow(x[1], 4) * (x[3] - eK) + gL * (x[3] - eL)) + i) / Cm;
-        membraneCurrentsArrayList.add(iSum);
+        currentsSum.add(iSum);
+        naCurrents.add(gNa * Math.pow(x[0], 3) * x[2] * (x[3] - eNa));
+        kCurrents.add(gK * Math.pow(x[1], 4) * (x[0] - eK));
+        lCurrents.add(gL * (x[3] - eL));
 
     }
 
@@ -124,7 +139,7 @@ public class ImplementedEquations implements FirstOrderDifferentialEquations {
     }
 
     //Returns array list of membrane current
-    public ArrayList<Double> getMembraneCurrentsArrayList() {
+    public ArrayList<ArrayList<Double>> getMembraneCurrentsArrayList() {
         return membraneCurrentsArrayList;
     }
 }

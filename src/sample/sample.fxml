@@ -61,7 +61,7 @@
           <NumberAxis animated="false" label="time[m/s]" side="BOTTOM" />
         </xAxis>
         <yAxis>
-          <NumberAxis animated="false" label="u[mV]" side="LEFT" />
+          <NumberAxis animated="false" label="I[μA/cm^2]" side="LEFT" />
         </yAxis>
       </LineChart>
       <LineChart fx:id="stability_chart" title="Parameter stability" GridPane.columnIndex="1" GridPane.rowIndex="2">
@@ -171,6 +171,14 @@
                         <Slider fx:id="gK_parameter_slider" blockIncrement="2.0" layoutX="10.0" layoutY="26.0" max="40.0" min="26.0" value="36.0" />
                         <Label fx:id="gL_parameter_text" layoutX="10.0" layoutY="42.0" text="gL[mS/cm^2]" />
                         <Slider fx:id="gL_parameter_slider" blockIncrement="0.1" layoutX="10.0" layoutY="58.0" max="0.5" min="0.13" value="0.3" />
+                        <Button mnemonicParsing="false" onMouseClicked="#showIonsCurrentsCharts" prefHeight="26.0" prefWidth="165.0" text="Ion charts">
+                           <VBox.margin>
+                              <Insets left="10.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets right="1.0" />
+                           </padding>
+                        </Button>
                      </children>
                   </VBox>
                   <VBox prefHeight="200.0" prefWidth="100.0">

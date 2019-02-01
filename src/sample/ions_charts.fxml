@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<GridPane prefHeight="536.0" prefWidth="404.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.IonsCharts">
+   <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+   </rowConstraints>
+   <children>
+      <VBox prefHeight="400.0" prefWidth="600.0">
+         <children>
+             <LineChart fx:id="na_chart" createSymbols="false" legendVisible="false" title="INa">
+                 <xAxis>
+                     <NumberAxis animated="false" label="time[ms]" side="BOTTOM" />
+                 </xAxis>
+                 <yAxis>
+                     <NumberAxis animated="false" label="I[μA/cm^2]" side="LEFT" />
+                 </yAxis>
+             </LineChart>
+             <LineChart fx:id="k_chart" createSymbols="false" legendVisible="false" title="IK">
+                 <xAxis>
+                     <NumberAxis animated="false" label="time[ms]" side="BOTTOM" />
+                 </xAxis>
+                 <yAxis>
+                     <NumberAxis animated="false" label="I[μA/cm^2]" side="LEFT" />
+                 </yAxis>
+             </LineChart>
+             <LineChart fx:id="l_chart" createSymbols="false" legendVisible="false" title="IL">
+                 <xAxis>
+                     <NumberAxis animated="false" label="time[ms]" side="BOTTOM" />
+                 </xAxis>
+                 <yAxis>
+                     <NumberAxis animated="false" label="I[μA/cm^2]" side="LEFT" />
+                 </yAxis>
+             </LineChart>
+         </children>
+      </VBox>
+   </children>
+</GridPane>
