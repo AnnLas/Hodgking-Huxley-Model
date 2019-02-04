@@ -39,18 +39,34 @@ public class SignalParameters {
         stdDeviation = statistics.getStandardDeviation();
     }
 
+    /**
+     * Returns max value of the signal
+     * @return max value of the peak
+     */
     public double getMax() {
         return max;
     }
 
+    /**
+     * Returns peaks mean of the signal
+     * @return peaks mean value
+     */
     public double getMean() {
         return mean;
     }
 
+    /**
+     * Returns standard deviation of signal peaks
+     * @return standard deviation
+     */
     public double getStdDeviation() {
         return stdDeviation;
     }
 
+    /**
+     * Returns frequency of peaks generating
+     * @return frequency of the signal
+     */
     public double getFrequency() {
         return frequency;
     }

@@ -44,22 +44,39 @@ public class ResultsHandler implements StepHandler {
         System.out.println(t + " " + Arrays.toString(x));
     }
 
+    /**
+     * Returns array of m values
+     * @return m values arrat
+     */
     public ArrayList<Double> getmValuesArray() {
         return mValuesArray;
     }
 
+    /**
+     * Returns array of n values
+     * @return n values array
+     */
     public ArrayList<Double> getnValuesArray() {
         return nValuesArray;
     }
-
+    /**
+     * Returns array of h values
+     * @return h values array
+     */
     public ArrayList<Double> gethValuesArray() {
         return hValuesArray;
     }
-
+    /**
+     * Returns array of u values
+     * @return u values array
+     */
     public ArrayList<Double> getuValuesArray() {
         return uValuesArray;
     }
-
+    /**
+     * Returns array of time values
+     * @return time values array
+     */
     public ArrayList<Double> getTime() {
         return time;
     }

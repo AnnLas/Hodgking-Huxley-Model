@@ -1,10 +1,9 @@
 package sample;
 
-import javafx.event.ActionEvent;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
@@ -20,6 +19,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * Manages user interface. Add data to charts, handle interactions with user ect....
+ */
 public class Controller implements Initializable {
     private static final double u0 = 0;
     //Initial values for calculations
@@ -40,8 +42,6 @@ public class Controller implements Initializable {
 
     private ResultsHandler resultsHandler;
     private SignalParameters statistics;
-
-
     private ImplementedEquations implementedEquations;
 
 
@@ -143,21 +143,18 @@ public class Controller implements Initializable {
     void showIonsCurrentsCharts(MouseEvent event) {
 
 
-
-
         try {
-           FXMLLoader loader = new FXMLLoader(getClass().getResource("ions_charts.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ions_charts.fxml"));
             Stage stage = new Stage(StageStyle.DECORATED);
             stage.setScene(new Scene(loader.load()));
             IonsCharts ionsCharts = loader.<IonsCharts>getController();
-                   ionsCharts.initData(resultsHandler.getTime(),
-               implementedEquations.getMembraneCurrentsArrayList().get(1),
-               implementedEquations.getMembraneCurrentsArrayList().get(2),
-               implementedEquations.getMembraneCurrentsArrayList().get(3));
+            ionsCharts.initData(resultsHandler.getTime(),
+                    implementedEquations.getMembraneCurrentsArrayList().get(1),
+                    implementedEquations.getMembraneCurrentsArrayList().get(2),
+                    implementedEquations.getMembraneCurrentsArrayList().get(3));
 
             stage.setTitle("Hodgking - Huxley model");
             stage.show();
-
 
 
         } catch (IOException e) {
@@ -243,7 +240,7 @@ public class Controller implements Initializable {
     }
 
 
-    public void dependencyBetweenUAndIonsStability() {
+    private void dependencyBetweenUAndIonsStability() {
         for (int u = -50; u < 150; u++) {
             calculateIonsStability(u);
             if (!Double.isNaN(calculateIonsStability(u)[0]) && !Double.isNaN(calculateIonsStability(u)[1]) && !Double.isNaN(calculateIonsStability(u)[2])) {
@@ -265,7 +262,7 @@ public class Controller implements Initializable {
     }
 
 
-    public double[] calculateIonsStability(double u0) {
+    private double[] calculateIonsStability(double u0) {
         double m = implementedEquations.alphaM(u0) / (implementedEquations.alphaM(u0) + implementedEquations.betaM(u0));
         double n = implementedEquations.alphaN(u0) / (implementedEquations.alphaN(u0) + implementedEquations.betaN(u0));
         double h = implementedEquations.alphaH(u0) / (implementedEquations.alphaH(u0) + implementedEquations.betaH(u0));

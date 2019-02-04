@@ -6,6 +6,9 @@ import org.apache.commons.math3.ode.FirstOrderDifferentialEquations;
 
 import java.util.ArrayList;
 
+/**
+ * Implementation of equations which describe Hodgking-Huxley model
+ */
 public class ImplementedEquations implements FirstOrderDifferentialEquations {
 
     //given current [uA/cm^2]
@@ -106,39 +109,62 @@ public class ImplementedEquations implements FirstOrderDifferentialEquations {
     }
 
     //equations for a and b parameters
-    //Channel gating kinetics. Functions of membrane voltage
+
+
+    /**
+     * @param u - membrane voltage
+     * @return Channel M gating kinetics. Functions of membrane voltage
+     */
     public double alphaM(double u) {
 
         return (0.1 * (25.0 - u)) / (Math.exp((25.0 - u) / 10.0) - 1);
     }
 
-    //Channel gating kinetics. Functions of membrane voltage
+    /**
+     * @param u - membrane voltage
+     * @return Channel M gating kinetics. Functions of membrane voltage
+     */
     public double betaM(double u) {
 
         return 4 * Math.exp(-u / 18.0);
     }
 
-    //Channel gating kinetics. Functions of membrane voltage
+    /**
+     * @param u - membrane voltage
+     * @return Channel N gating kinetics. Functions of membrane voltage
+     */
     public double alphaN(double u) {
         return (0.01 * (10.0 - u)) / (Math.exp(1.0 - (0.1 * u)) - 1.0);
     }
 
-    //Channel gating kinetics. Functions of membrane voltage
+    /**
+     * @param u - membrane voltage
+     * @return Channel N gating kinetics. Functions of membrane voltage
+     */
     public double betaN(double u) {
         return 0.125 * Math.exp(-u / 80.0);
     }
 
-    //Channel gating kinetics. Functions of membrane voltage
+    /**
+     * @param u - membrane voltage
+     * @return Channel H gating kinetics. Functions of membrane voltage
+     */
     public double alphaH(double u) {
         return 0.07 * Math.exp(-u / 20.0);
     }
 
-    //Channel gating kinetics. Functions of membrane voltage
+    /**
+     * @param u - membrane voltage
+     * @return Channel H gating kinetics. Functions of membrane voltage
+     */
     public double betaH(double u) {
         return (1.0 / (Math.exp((30.0 - u) / 10.0) + 1));
     }
 
-    //Returns array list of membrane current
+    /**
+     * Return array list of membrane current
+     * @return array list of membrane current
+     */
     public ArrayList<ArrayList<Double>> getMembraneCurrentsArrayList() {
         return membraneCurrentsArrayList;
     }
